@@ -1,0 +1,123 @@
+ FORTH/2 -- Copyright(C) 1992-1994 - BLUE STAR SYSTEMS, all rights reserved
+ Produced in the United States of America
+
+   This software is furnished under a license agreement or nondisclosure
+ agreement. The software may be used or copied only in accordance with
+ the terms of the agreement. No part of this program may be reproduced
+ or transmitted in any form or by any means, electronic or mechanical,
+ including photo-copying and recording, for any purpose without the
+ express written permission of the author except as stated below.
+
+   The following paragraph does not apply in the United Kingdom or any
+ country where such provisions are inconsistent with local law:
+   BLUE STAR SYSTEMS OFFERS THIS PROGRAM "AS IS" WITHOUT WARRANTY OF
+ ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+ Some states do not allow disclaimer of express or implied warranties in
+ certain transactions, therefore, this statement may not apply to you.
+
+ BLUE STAR SYSTEMS may have patents or pending patent applications covering
+ the subject matter in this program. The furnishing of this program does
+ not give you any license to these patents. You can send license inquiries,
+ to any of the following:
+
+   US Mail: BLUE STAR SYSTEMS
+            PO Box 4043
+            Hammond, Indiana 46324
+
+   Email:   ka9dgx@interaccess.com
+            ka9dgx@chinet.chinet.com
+
+   Voice:   (219) 844-7325    { 10:00 AM - 10:00 PM CDST ONLY!!! }
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: 2.3a
+
+mQCNAi1X2jMAAAEEAMr7NUUSsmBMBcGzFtMcfSZHsqguIRa5s779x7fzuLmcwv/K
+85bI0dNlA/DVKUn4UwFHTXS/dWnmncL6QxJDgKj0OqDp4Z4jIbI824jvps8ryEri
+4spft6LpD8b+W/wgdnvhlkMxaY1PiqgTpXewxB0M2L5IcAGbaknsEuxPvDXBAAUR
+tCNNaWtlIFdhcm90IDxrYTlkZ3hAaW50ZXJhY2Nlc3MuY29tPokAlQIFEC1X3Ayp
+bPsvJkAEnQEB66gEALqviKeV/tu/3FajakcRpt3LhJHUMq8fL8U84XGfRi8DBE1I
+P7CgKe1n/K5AHbgqybl/+uOCzI1vljVwijtZkMV+Wk+hDXaKtpTGay7Uu3U676iK
+H0OZel4MlzI0JlR31ulAtukG+zMR03JUN5SGeWCFpX3KwBiPpvahzGhEqT3AiQCV
+AgUQLVfb5EnsEuxPvDXBAQEWYAP+N4EIKLAV6StDQgZ/cbCGxWmE5gA4iCPP45et
+EW1PEsIitIJNrJBLE75Hgahl8T9ykWFIiZkSbTUahZZIbF/QSIrz5s5gJ0aejBg2
+RYv7/JVSjGXDN5CdINU+K+SiCruo3WdwsmkVlDWQbEFpjWGOeW10bc06TCNOrPoq
+k1Bw5EY=
+=hes0
+-----END PGP PUBLIC KEY BLOCK-----
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: 2.3a
+
+mQCNAiylyfwAAAEEAOWdisR2IMizjw77FP5YnC1p4TtqHTyM103FNopeNkm07YSx
+jK++fbEgZV82ulk7FUrsvDtNkkGXI8PVPz7PVx0Uip+0SkxLlEv8mBDq6U1hED17
+Luz1Fxvct8w4Hiby3o5p+nTkEvqg+PlV3TaJj7Tlz3C/853HCals+y8mQASdAAUR
+tB5NaWtlIFdhcm90IDxrYTlkZ3hAY2hpbmV0LmNvbT6JAJUCBRAtV9weqWz7LyZA
+BJ0BAW5WBADJPsl/p0Hgdec/6d4fuT1bEyHPIud/JGDgmA+MK5DjWwc0Hfl9YOXf
+P6W+VgXbD5ZyJ7B6YOeUy3fWepKtdRMpMI29b7BOAO+9HbvmK1bhJjjClvF8Afhe
+GA8J3ePxs8ZxxOqPuemQnbXfgWSdasKclwuHVgrAMQ4vR48OONs2BokAlQIFEC1X
+2/RJ7BLsT7w1wQEBzo4D/0daHmn1hvrdtZAHXert3ZpV6xJwRHg7LHK6U3GEVkuQ
+LG90fRXodpfV6fInumRe2KdMT0oMROPEpigLrFX8IRSbdoJuyjFML/KnhQ45VltZ
+EqLJbF8G38pJEUUOaeoQMqU0kDnvwNY7ZKHcnyW5Xoahb1PKbaqKBIs0Wo6rd292
+=+Yhg
+-----END PGP PUBLIC KEY BLOCK-----
+
+
+
+ BLUE STAR SYSTEMS hereby grants you permission for this distribution of
+ this program, provided it is distributed in it's complete, un-altered form,
+ and a no fee exceeding $3.00(US) is charged for is distribution.
+
+ BLUE STAR SYSTEMS hereby grants you permission to use this program for a
+ trial period of thirty(30) days, after which time you must register this
+ software for it's continued use.
+
+
+
+
+
+ Abstract: This program is a small, 32Bit TEXT MODE forth for OS/2.
+
+ Version:  Version 0.040 áeta
+
+ Requirements: OS/2 version 2.0 or later
+               P3+ (iAPX386 or better)
+
+ Licensing information:
+
+   Licensing fees:
+
+     First Computer   - $20.00
+     Additional CPU's - $10.00
+
+   To obtain a license for this program, please complete the following
+ and send with payment (U.S. Funds) to:
+
+     BLUE STAR SYSTEMS
+     PO Box 4043
+     Hammond, Indiana 46324
+
+
+
+
+    NAME:
+
+    COMPANY:
+
+    ADDRESS:
+
+    CITY:
+
+    STATE/PROVINCE:
+
+    ZIP CODE:
+
+    COUNTRY:
+
+
+
+    Number of program licenses:
+
+
+

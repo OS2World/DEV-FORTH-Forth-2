@@ -1,0 +1,1480 @@
+
+
+                   Forth/2 Preliminary Documentation
+                            May 11, 1993
+
+
+Forth/2 is a fully 32-bit, native Forth for OS/2 2.0.  It requires an
+80386SX or compatible microprocessor, and OS/2 2.0 or subsequent
+versions.
+
+Forth/2 was created specifically for OS/2 using MASM 6.0 Currently it is
+a text-mode application which can be run either in a full screen or in a
+window.  It presently does not conform to any single Forth standard.
+Most of the major Forth functions are included.
+
+
+
+
+                           Table of Contents
+
+0.   Introduction
+
+1.   Using Forth/2
+1.1  Installing Forth/2
+1.2  Starting Forth/2
+1.3  Basic information about Forth/2
+1.4  Quitting Forth/2
+1.5  Executing OS/2 Commands from Forth/2
+1.6  Creating and Loading Forth Source Code
+1.7  Error Detection
+
+2.   For Beginners
+
+3.   Special Functions IN Forth/2
+3.1  Case Statements
+3.2  TO Variables (or VALUE's)
+3.3  String Handling Words
+3.4  Threads
+3.5  Arrays and Structures
+3.6  Vocabularies
+3.7  Local Variables
+
+4.   List of Words
+4.1  Parameters
+4.2  Parameter Naming Conventions
+4.3  List of Word Definitions (INCOMPLETE)
+
+5.   Technical Description
+5.1  Internals
+5.2  OS/2 Interface
+5.3  USER Variables and Multi-Tasking
+5.4  TO Variables (VALUE's)
+5.5  Vocabularies
+5.6  Specifications and Limits
+
+
+6.   Compatibility Issues
+7.   Where to send comments/suggestions
+
+
+
+0.  INTRODUCTION
+
+Forth is an interactive, hierarchical programming language.  Forth is a
+collection of functions which can be combined to create new functions,
+which in turn can be used in other functions.  A "program" in Forth is
+simply a word which performs a series of these functions.
+
+For example, most books on programming show you how to create a minimal
+program in a particular language, one which simply types the words
+"Hello, world!" on the screen.  In Forth, this would be:
+
+   : HELLO   ." Hello, world!" ;
+
+Then, typing the word HELLO and tapping the Enter key will print the
+message.  The word  :  defines the new word HELLO, and defines its
+function to be all the words following up to the  ; . In this case, the
+only function it performs is  ."  (pronounced "dot-quote"), which 
+simply types the text to the screen up to the ending  " .
+
+All the words  :  ."  and  "  are functions which reside in Forth's 
+vocabulary, the list of defined functions.  Then,  HELLO  was simply 
+added to this list of functions.  To see other available functions,
+type  WORDS  and tap the Enter key.
+
+This documentation cannot hope to explain Forth to newcomers as well as 
+others have.  Two very readable and highly recommended books which
+explain Forth are:
+
+   Starting Forth (2nd ed.) by Leo Brodie
+   Thinking Forth  also by Leo Brodie.
+
+Look for them in your local library or bookstore, or obtain these and
+other books by writing or calling FORTH, Inc. at:
+
+   FORTH Inc.
+   <I have to find their address>
+
+
+   John D. Hall, President
+   Forth Interest Group
+   P.O. Box 2154
+   Oakland, CA  94621
+   (510) 893-6784, Fax (510) 535-1295
+
+
+
+
+1.  Using Forth/2
+
+1.1  Installing Forth/2
+
+The Forth/2 beta is currently distributed as a single .ZIP (compressed) 
+file called FORTHxxx.ZIP where xxx is the version number (currently at 
+xxx=028).  Copy this file into any folder, and use PKWare's pkunzip
+utility or equivalent to uncompress the files.  
+
+Forth/2 reads and compiles the file FORTH.INI upon startup.  This file
+helps minimize the size of the FORTH.EXE file while maximizing the 
+ability to customize Forth/2.  Make sure this file is in the same 
+directory that FORTH.EXE is called from.
+
+
+
+1.2  Starting Forth/2
+
+To run Forth/2 from the OS/2 command line, simply change to the
+directory containing FORTH.EXE and FORTH.INI and type:
+
+   FORTH
+
+Or, create an OS/2 .CMD file to automate this process.  If you have 
+installed Forth/2 in a directory called FORTH2 on drive  C: then create
+a file called FORTH.CMD as follows:  
+
+   REM FORTH.CMD  -  Starts Forth/2
+   C:
+   CD \FORTH2
+   FORTH
+
+From the WorkPlace Shell, simply open the folder containing FORTH.EXE
+and FORTH.INI and double-click on FORTH.EXE.  To set it up to run in a
+window or in a full screen, bring up the menu for this object with Mouse
+Button 2, and select Open-->Settings, click on Session, and check either 
+the Windowed or Full Screen buttons to select.  
+
+
+
+1.3  Basic information about Forth/2
+
+All Forth/2 commands are case insensitive.  When new definitions are 
+added to the dictionary, the letters are converted to uppercase first.  
+To see a listing of functions available in Forth/2, type Words then tap 
+the Enter key.
+
+In the Words listing, you will see a fairly long list of words in the 
+Forth vocabulary, followed by the words available in the System 
+vocabulary.  The System vocabulary contains the names of many OS/2 
+system calls which would otherwise clutter up the main Forth dictionary.  
+
+To remove these system calls from the Words listing, type Forth ONLY and
+tap the Enter key.  To see or use the system calls again, type System 
+and they will reappear.  
+
+See Section 3.6  VOCABULARIES for more information.
+
+You may also look up individual words from the Forth prompt.  If the
+file FORTH2.DOC (this file) is in the same directory that FORTH.EXE
+is in, type
+
+   VIEW wordname
+
+to get a brief description of a word and what parameters it requires
+and leaves on the stack.  Try  VIEW VIEW for example.
+
+Use the function key F3 to recall the previous command, or F1 to recall
+the previous command one letter at a time.
+
+
+
+1.4  Quitting Forth/2
+
+To exit from Forth/2, type
+
+    BYE
+
+and tap the Enter key.
+
+If Forth/2 has locked up, or is caught in an endless (or very long) 
+loop, use Ctrl-C to exit the program.  
+
+
+
+1.5  Executing OS/2 Commands from Forth/2
+
+To temporarily exit to the OS/2 command line prompt, type
+
+    CommandPrompt
+
+and tap the <Enter> key.  Feel free to redefine this to a shorter word.  
+When you have finished using OS/2 commmands, type 
+
+    EXIT
+
+and tap the <Enter> key to return to Forth/2.  The state of Forth/2 will
+be preserved.
+
+
+For frequently used system calls, you may wish to have OS/2 run the program
+directly.  To invoke an editor from Forth/2, and pass it the name of a
+file to edit, create the following word:
+
+    : ED  ( -- )  ARGS" filename.4th"  SHELL" editor.exe" ;
+
+You must give the exact path of the editor.exe program.  Omit the ARGS"
+if you do not want to pass the program any arguments.  To create a word 
+called ED" <filename>" which will edit the file after it, create this 
+word:  
+
+    : ED" ( name-- )  [COMPILE] ARGS"    SHELL" editor.exe" ;
+
+
+To have OS/2's command shell execute a command, such as copy, del, start,
+etc., use a /C in front of the arguments passed to CMD.EXE.  For example,
+to create a Forth-based Copy command, do the following:
+
+    : COPY  " /C COPY "   Arguments "MOVE
+            BL Word       Arguments "CAT
+            "  "          Arguments "CAT
+            BL Word       Arguments "CAT  CommandShell ;
+
+To copy a file  test.4th  to  a:test.4th, type:
+
+    COPY test.4th a:test.4th
+
+See Section 3.3 on string handling for more information.
+
+
+
+1.6  Creating and Loading Forth Source Code
+
+Create Forth definitions directly from the command line, or create an 
+ASCII sequential file using your favorite text editor.  To load in the 
+file, use the following word:  
+
+    INCLUDE" FileName.TXT"
+
+You may freely nest INCLUDE" inside other INCLUDE"ed files.  However,
+when compiled, the files must not alter the stack, either by requiring
+numbers or by leaving extra numbers on the stack.
+
+ *** BUG ALERT! ***  INCLUDE" in FORTH.INI does not return control
+
+You may also use OS/2's cut and paste ability to copy just a few words 
+from your editor, paste them into a windowed Forth/2 session, and try 
+them out until they work correctly.  
+
+The file FORTH.INI contains basic definitions required by most Forth
+programmers, as well as a few utility programs like  MORE"  and  DIR.
+You may add your own programs to this file, or make any changes you 
+desire.  However, it is recommended that you instead use the
+STARTUP.4TH file for any customizations.  This way, you will avoid 
+having to reconcile the latest version of Forth/2 with your own 
+changes.  
+
+Use ECHO ON and ECHO OFF within .4TH files to echo portions of a 
+document to the screen while they are being loaded.
+
+When debugging programs it is common to load and re-load a program many
+times.  Avoid cluttering up the dictionary by using the word  FORGET.
+Use the command  FORGET <word>  to remove all definitions from <word> 
+onward.  
+
+
+
+1.7.  Error Detection
+
+Unlike DOS, OS/2 catches any reads or writes to memory outside of the
+application's allocated space.  This helps keep applications protected
+from one another, and notifies you that you have a bug.  Almost nothing 
+you can do will crash anything but the one Forth/2 session.
+
+All this protection is nice, but when things go wrong there is no way
+to trace back what happened, nor examine the values of specific memory
+locations.  (OS/2 has system calls to do this, but they have not been
+utilized in Forth/2 yet.)  Fortunately, Forth makes it so easy to test 
+out small chunks of code that wild memory references can be narrowed 
+down to the culprit quickly.
+
+Note: These exceptions will handled gracefully in a future release.
+
+
+
+2.  FOR BEGINNERS
+
+Under construction!  If you would like to know how Forth works, find a
+book on programming in Forth at your local library.  Or, obtain a file
+from an Internet ftp site which describes how to use Forth.
+
+The ftp site asterix.inescn.pt (192.35.246.17) contains a great deal of
+information about Forth and Forth programs.  Look in the directory
+/pub/forth.
+
+
+
+2.1  Forth Structure and Syntax
+
+The following are some basic statements about Forth's stucture and
+syntax:
+
+  Forth is made up of a DICTIONARY of words.
+
+  The DICTIONARY can be organized into separate VOCABULARIES.
+
+  Each word in the dictionary performs some kind of function.
+
+  All words and numbers must be separated by at least one SPACE.
+
+  To use a word or series of words, type them in and tap Enter.
+
+  Some words, like CONSTANTs, simply return a value.
+
+  Other words perform various functions.
+
+
+  Forth is STACK-ORIENTED, and uses Reverse Polish Notation.
+
+  The stack is used to pass PARAMETERS to words.
+
+  Many words OPERATE on a certain number of parameters on the stack,
+   THEN RETURN zero or more parameters on the stack.
+
+  For example, the word '+' adds two numbers from the stack, leaving one.
+
+  To see the CONTENTS OF THE STACK, use the word  .S
+
+
+  The defining word  :  CREATES a new word in the dictionary.
+
+  Create this:   : TEN+  10 + ;   Try:  100 TEN+ .S   -10 TEN+ .S
+
+  The word  :  is just another word in the dictionary, which creates
+    a dictionary entry for the word which follows it, and defines
+    the word's funtion to be to perform all the words which follow
+    it up to the  ;
+
+  Forth allows ANY ASCII characters to be used in word names.
+
+  Other words, like VARIABLE <variable_name>  or
+           <number> CONSTANT <constant_name>  also create new words.
+
+  VARIABLE's push the address where the variable is stored onto the stack.
+  To FETCH the contents of the variable, use          <variable_name> @
+  To STORE a number into the variable, use   <number> <variable_name> !
+  The word  @  is pronounced "FETCH", and  !  is pronounced "STORE".
+
+  To print and remove the number from the top of the stack, use  . (DOT)
+
+  One convention in Forth is to use  .  in any word which prints things.
+
+
+Planned sections:
+
+2.2  Simple math, .S, ."
+2.3  : routines, IF...THEN
+2.4  DO...LOOP   BEGIN...AGAIN
+2.5  Number formatting
+2.9  Making something work inside  :  definitions (e.g. COPY)
+
+
+
+
+3.  SPECIAL FUNCTIONS IN FORTH/2
+
+This section describes special words available in Forth/2.
+
+
+3.1  CASE STATEMENTS
+
+CASE statements are for when you evaluate a number of different options, 
+as in typing the day of the week.  Try the following word:
+
+: DAY ( n ) CASE  1 OF  ." Monday"       ENDOF
+                  2 OF  ." Tuesday"      ENDOF
+                  3 OF  ." Wednesday"    ENDOF
+                  4 OF  ." Thursday"     ENDOF
+                  5 OF  ." Friday"       ENDOF
+                  6 OF  ." Saturday"     ENDOF
+                  7 OF  ." Sunday"       ENDOF
+                        ." Day " . ." ?" ENDCASE ;
+
+Simply type  5 DAY  and it will print "Friday".
+
+Note that you need a  DROP  or a similar effect between the last ENDOF 
+and the ENDCASE, which differs from other implementations of CASE..ENDOF.
+
+
+
+3.2  TO VARIABLES (or VALUE's)
+
+TO variables help make Forth simpler to use and to read.  They are most
+useful when you fetch a value much more often then you store into that
+variable.
+
+To create a TO variable, simply type:
+
+    INTEGER X_LOC
+
+and it is initialized to 0.  To examine the value of X_LOC, simply type:
+
+    X_LOC .
+
+No @ is necessary.  To store a new value into X_LOC simply type
+
+   100 TO X_LOC
+
+Then,  X_LOC .  will show 100.  To add to a TO variable, use +TO as in:
+
+   50 +TO X_LOC
+
+Then,  X_LOC .  will show 150.  To create a TO variable initialized
+with a certain value, use:
+
+    1020 TO INTEGER Taxes
+
+
+Create arrays of integers with another word:
+
+   100 INTARRAY XP[]    ( Creates an array called XP[] of 100 elements )
+
+   100 0 DO  100 RND  I TO XP[]  LOOP   ( Store random numbers into XP )
+
+   0  100 0 DO  I XP[] +  LOOP          ( Calculates the sum of all XP )
+
+And, using  n index +TO XP[]  will add n to the indexed integer.
+
+You can also create STRING TO variables.  See section 3.3.
+
+
+
+3.3  STRING HANDLING WORDS
+
+All of the string words such as  ."  can be used outside colon definitions.
+A number of words have been included with Forth/2 to facilitate string
+handling.  
+
+
+3.3.1  Creating and Typing Strings
+
+To create a string constant, use the word " as follows:  
+
+    " April 4, 1999"  "CONSTANT Deadline
+
+Then, use  ".  (quote-dot) to type it out:
+
+    Deadline ".
+
+Develop your own synonyms for ". like  @Type  or  $.  etc.  Or, a
+simpler way to create a string constant is like this:
+
+    Call" Bill Clinton" President
+
+To create a zero-terminated string, such as for use with OS/2 system
+calls, use 0" as follows:
+
+    : Invoice_File   0" Invoices.DAT" ;
+
+Then, use  0".  to type the string out:
+
+    Invoice_File 0".
+
+or either type or load a file:
+
+    0" Calendar.4TH" MORE
+    0" Calendar.4TH" INCLUDE
+
+Use  0"COUNT  to obtain the size of a 0-terminated string.  In the
+example below, the 0" string is counted, then moved into TempStr as
+a counted string with MOVE>"
+
+    CREATE TempStr   80 ALLOT
+    0" FileName.TXT"  0"COUNT  TempStr  MOVE>"
+
+
+You may want to terminate a regular counted string with a zero
+(if you have alloted room beyond the string).  To do this, use
+
+    CREATE StrA  80 ALLOT
+    " To be zero-terminated"  StrA  "MOVE
+    StrA 0-Terminate
+    StrA W+ 0".               \ Skip length and use 0". to print
+
+These words all work in colon definitions as well.
+
+
+3.3.2  Copying and Concatenating Strings
+
+The word  "MOVE  will move a counted string to another area of memory.
+To copy a string to another memory area, do the following:
+
+   ( Make room for strings up to 80 characters long )
+   VARIABLE StringBuf  80 ALLOT
+
+   Call" Warning: " WarnMsgBeg
+
+   : InitWarning   WarnMsgBeg StringBuf "MOVE ;
+
+   : TempWarning   InitWarning
+                   " Temperature over limit!"  StringBuf "CAT ;
+
+   : PresWarning   InitWarning
+                   " Pressure overload!"       StringBuf "CAT ;
+
+
+   TempWarning  StringBuf ".   ( Will print the warning message )
+
+
+The word  "CAT  will add one string to the end of a second string.
+It accepts two strings on the stack, ( string1 string2 -- ) which are 
+both counted-strings, and adds  string1  to the end of  string2.
+
+Because both  WORD  and  "  return the address of a counted string, most
+string handling words act upon a single address.  That address points to
+a 32-bit length, followed by the characters which make up the string.
+However, it is often required to manipulate a string which does not have
+a length at the address, but instead the length is on the stack.  To use 
+words like "CAT or =" with a string and length, first move it to a
+temporary string buffer with the word MOVE>" as follows:
+
+    0" First Second Third Word"  6  StringBuf  MOVE>"
+
+    StringBuf ".                 \ Will type "First "
+
+The above code copies the first six charcters from the 0" string to
+StringBuf, because 0" returns the address of the first charcter of the
+string.
+
+The word  MOVE>"  will copy a character string of a given length to an
+address and save it as a counted string.
+
+    MOVE>"  ( address length dest_address -- )
+
+
+3.3.3  Comparing Strings
+
+You can check if two strings are equal with  ="  which accepts the
+addresses of two counted strings, and returns true or false if they are
+equal or not.  This word is case insensitive, so
+
+
+   Call" AbC" String1
+   String1  " aBc"  ="
+
+( Note that you cannot type in from the command line two quoted strings
+in a row, because the second is parsed into the same location as the
+first one, overwriting it.)
+
+Often, however, you will have to compare one string, which is given as
+an address and length, with another counted string.  Instead of using
+MOVE>"  every time you wish to compare the string with another 
+(counted) string, use the word  =STRING  as follows:
+
+   address length  " Compare String"  =STRING  IF  ...  ELSE  ...  THEN
+
+ 
+
+
+3.3.4  String TO Variables
+
+String  TO  variables are also available.  They are used in the same way
+as regular  TO  variables:
+
+    STRING S1                         \ Create string S1
+
+    " This is String 1" TO S1         \ Store string into S1
+
+    " Initial String 2" TO STRING S2  \ Create string with initial value
+
+    " Plus some extra" +TO S2         \ Adds "Plus some..." to end of S2
+
+    S1 ".    S2 ".                    \ Type contents of strings S1 and S2
+
+
+
+
+
+3.4  THREADS
+
+Threads are separate processes which run concurrently with other 
+programs.  They share memory space with the program that created them.  
+
+OS/2 supports thread creation and management through the functions 
+DosCreateThread, DosKillThread, DosResumeThread, DosSuspendThread, and
+DosWaitThread.  
+
+To load thread support into Forth/2, issue the command
+
+    INCLUDE" THREADS.4TH"
+
+in your  STARTUP.4TH  file, which should itself be INCLUDE"ed in 
+FORTH.INI.
+
+
+3.4.1  Creating Threads and USER Variables
+
+In Forth/2 a thread can be created to perform some action in the 
+background, and free up the main program for other uses.  For example, 
+you may want to start a separate thread to load a large table of numbers 
+into memory and perform computations.  Or, a thread can simply put 
+itself to sleep and wake up at hourly intervals to perform some 
+function.  
+
+Most self-contained words in Forth/2 can be performed as a separate
+thread.  When the thread starts, it is given its own stack, and its own 
+copies of USER variables.  
+
+USER variables are variables which multiple threads may use without
+interfering with each other.  For example, if you define a variable X1,
+but two different threads use this variable, then problems may arise.
+One thread may store into the value, only to have the intended value
+overwritten by another thread.
+
+If X1 was created as a USER variable, however, then although the code for
+each thread uses a USER variable called X1, they will be in entirely 
+different locations and will not interfere with each other.  This allows
+you to create what is commonly referred to as reentrant code.
+
+A good example is variables which hold file handles, file pointers, etc.  
+Without USER variables, if two threads tried to read or write files at
+the same time, the handles and pointers would overwrite each other.  You 
+would need two separate words which use different sets of variables in 
+order to get just two threads to do the same function at the same time.  
+
+With USER variables, when the thread is created it is given a copy of
+the current USER variables.  After that, can freely modify them,
+while using the exact same Forth words that other threads use.
+
+
+In many cases, you may want to share a variable between threads.  For
+example, you may want to create a "watchdog" thread which continually
+examines a variable for a certain number.  This is a great help in
+debugging programs.
+
+    variable XV1
+    : WatchDog  begin  XV1 @ 0< IF  CR ." XV1 < 0 !"  1 sleep  then
+                       100 usleep
+                0 until ;
+
+To run this as a separate thread, simply type
+
+    Thread WatchDog
+
+and test it by storing different values into XV1.  The  1 sleep  is
+there to prevent a huge number of warning messages, and the 100 usleep
+is there to prevent the thread from slowing down the system too much.
+
+
+
+3.4.2  Exiting and Terminating Threads
+
+When Forth/2 is exited via BYE, all threads created by it will also be 
+terminated.  (This may be controlled by an option in an upcoming version
+of Forth/2).  If you wish to kill separate threads, use the ThreadID
+variable to obtain the identification number of the most recently 
+created thread, and type
+
+    ThreadID @ KillThread
+
+Look at the examples in the  THREADS.4TH  file for two other examples of
+using threads.  If the word, such as Timer, finishes executing and
+gets to the  ;  then the thread will terminate itself.  The thread may
+also use  BYE  and  EXIT  to terminate before the  ;
+
+
+
+3.4.3  Using ABORT in Threads
+
+The word  ABORT  is vectored through  'ABORT.  In effect, ABORT is
+
+    : ABORT  ( -- )  'ABORT @ EXECUTE ;
+
+If your thread calls  ABORT  or  ABORT"  you may want to redirect ABORT to
+terminate the thread.  If you do not, it will halt the main program from
+doing whatever it is doing.  To redirect  ABORT  do the following:
+
+    : ThreadAbort   ' BYE  CFA @  'ABORT ! ;
+
+Then, simply call  ThreadAbort  in the beginning of the code for the
+thread.  When  ABORT  is called from the thread, the thread will 
+gracefully terminate.
+
+
+
+3.4.4  The USER Variable Area
+
+Currently, a number of system variables such as BASE, the dictionary 
+pointer, STATE, et al., are not USER variables yet.  (It requires some 
+slight changes in how things are coded:  see Part 5 for details).  
+
+Consequently, threads cannot request input from the terminal (although 
+they may send harmless output to the screen), nor can they compile new
+definitions.  These limitations may change in a future release.  
+
+If you wish to initialize a thread with a different default USER 
+variable area other than the current thread's area, then store the 
+address of the new default area into the variable  'USER.  The size of
+the USER area is  UDP @  USER0 -  where  UDP  is the USER area free
+memory pointer, and  USER0  is the current thread's USER variable base.
+
+
+
+
+3.5  ARRAYS AND STRUCTURES
+
+Arrays and structures are supported in the file  STRUCT.4TH which you
+can load via  INCLUDE" STRUCT.4TH"
+
+Structures hold groups of various information, such as a transaction 
+which has an identification number, a time/date stamp, a text 
+description, codes, and various other parameters.  A structure brings 
+all of this information into one convenient element which can be easily 
+manipulated.
+
+<<See the file  STRUCT.4TH  for more information and examples.>>
+
+
+
+3.6  VOCABULARIES
+
+Vocabularies under Forth/2 work like most other Forths.  To create a 
+vocabulary to hold a group of words, use
+
+    VOCABULARY <vocabulary_name>
+
+In order to tell Forth which vocabulary you wish to add new colon 
+definitions, variables, constants, etc. to, use
+
+    <vocabulary_name> DEFINITIONS
+
+Two vocabularies are already defined,  FORTH  and  SYSTEM.  When you 
+use the command WORDS to list the current Forth words, you will see the
+Forth vocabulary and possibly other vocabularies as well.  To only show 
+the FORTH vocabulary, simply type 
+
+    Forth ONLY
+
+Then,  WORDS  will show only the definitions in the Forth vocabulary.
+To see the SYSTEM vocabulary, simply type 
+
+    SYSTEM WORDS
+
+and you will see the system vocabulary, followed by the Forth 
+vocabulary.  Then, type FORTH words and you will instead see the Forth 
+vocabulary first, followed by the system vocabulary.  
+
+Forth/2 keeps track of a  CURRENT  vocabulary, where all new definitions
+are added, as well as a list of  CONTEXT  vocabularies.  CONTEXT vocab-
+ularies are where Forth searches to find a word, either to execute it or
+to compile it.  What you see in the WORDS listing is the same order that 
+Forth/2 will use to search for words when compiling.  
+
+Whenever you invoke the name of a vocabulary, if it is already in 
+CONTEXT  then it will simply be moved into the top of the search order.
+If it is not already in  CONTEXT, then it will be added to the top of 
+the search order.
+
+To create two vocabularies, then define the search order for the words 
+as Voc2 first, then Voc1, then Voc3, then System, then Forth, do the 
+following:  
+
+    VOCABULARY Voc1     : XV1  ... ;   : XV2   ... ;
+    VOCABULARY Voc2     : XV3  ... ;   : XV4   ... ;
+    VOCABULARY Voc3     : XV1  ... ;   : XV2   ... ;
+
+    Forth ONLY
+    Forth System Voc3 Voc1 Voc2 DEFINITIONS
+
+New words will be added to Voc2.  In the example above, the same word
+XV1 is defined in both vocabularies Voc1 and Voc3.  In this case, 
+because of the search order defined, if  XV1  is invoked, then the XV1
+from Voc1 will be executed, even though the  XV1  from Voc3 was defined
+later.  
+
+The  Forth ONLY  above clears out any other unwanted vocabularies.
+
+
+
+3.7  LOCAL VARIABLES
+
+Local variables enhance Forth by reducing the complexity of stack 
+operations, and allow you to assign descriptive labels to the numbers 
+passed to the word on the stack.
+
+Local variables are supported in the file called  LOCALS.4TH.  Use 
+INCLUDE" LOCALS.4TH" in STARTUP.4TH to load local variable support every
+time Forth/2 is started.
+
+If you pass three parameters to a word, perhaps ( addr len dest -- )
+and want to copy addr,len to the dest address, you could label these 
+parameters as:
+
+    LOCALS| addr len dest |
+
+After that, you are free to use the words  addr, len, and dest just as 
+if they were regular Forth words.  When the word containing the LOCALS|
+is executed, at the point  LOCALS|  appears the top three numbers on the
+stack are saved into a special data area, and the numbers are dropped 
+off the stack.  When  addr  gets executed, it fetches the value of the
+thrid element in the locals data area, and pushes it onto the stack.
+
+The general format of this is as follows:
+
+: WordName  LOCALS|  local1  local2  local3  ...  local8 |
+                     ...  local1  ...
+                     ...  local2  ...  local3  ... etc.  ;
+
+The entire  LOCALS| ... |  must be on the same line.
+
+One simple example is below:
+
+   : DIGITS    LOCALS|  digit1 digit2 digit3 |
+                        digit1  100 *
+                        digit2   10 *
+                        digit3  + + ;
+
+DIGITS  turns  1 2 3 DIGITS  into  123
+ 
+ 
+In regular Forth you would need code like this to do the same thing:
+
+: DIGITS       ROT  100 *   ROT  10 *  + + ;
+
+It is much less clear what the second version of DIGITS does.
+
+LOCAL's are somewhat slower than regular Forth words, although this may 
+be changed if some words are turned into assembly words.  
+
+
+
+
+4.  DESCRIPTION OF WORDS
+
+This is an incomplete list of the words included in Forth/2.  Some are
+included in the FORTH.EXE file, others are in the FORTH.INI file.
+
+
+4.1  Parameters
+
+The parameters each Forth word requires, and the parameters it returns
+are specified by the following convention:  
+
+    ( n1 n2 n3 ... -- r1 r2 r2 ... )
+
+where n1, n2, n3, etc.  are the required parameters, and r1, r2, r3, 
+etc.  are the results.  For example, the word DUP duplicates the top 
+number on the stack, so it has the stack definition:  
+
+DUP       ( n -- n n )  Duplicates the number on top of the stack
+
+The word ?DUP duplicates the number on the stack if it is non-zero.  It
+returns different numbers of parameters depending on the top of stack:
+
+?DUP ( n -- n 1 -- 0 )  DUPlicates n if non-zero.
+
+The word ' (tick) fetches the address of the following word, e.g.  ' DUP 
+will return the starting address of the DUP definition header, the Link 
+Field Address (LFA).  
+
+'       ( word-- LFA )  gets the LFA address of the following word
+
+So, when something is right up against the --'s, it expects a word or 
+set of words from the input stream.  
+
+
+
+4.2  Parameter Naming Conventions
+
+Some naming conventions for the parameters are:
+
+addr     a 32-bit address (or just 'a')
+b        an 8-bit byte
+char     an ASCII character
+n        a 32-bit number
+"        the address of a string
+?        the number of parameters is unknown
+
+
+
+4.3  List of Word Definitions (INCOMPLETE)
+
+--Begin--
+!        ( n addr -- )  Stores the number n into address addr
+"       ( word" -- a )  Returns the addr of the counted string ending in "
+"CAT   ( addr1 addr2 )  ConCATenates counted string at addr1 to end of addr2
+"CONSTANT     ( " -- )  Creates a string constant  Does> ( -- a )
+"MOVE  ( addr1 addr2 )  Copies counted string from addr1 to addr1
+#OUT       ( -- addr )  Variable holding # of characters written to line
+#TIB          ( -- n )  Address of the current offset in the TIB
+'       ( word-- LFA )  Gets the LFA address of the following word
+'ABORT     ( -- addr )  Pointer to code to execute when ABORT is called
+'USER      ( -- addr )  Pointer to the default USER area for new threads
+(               ( -- )  Skips interpreting words up to the next )
+*   ( n1 n2 -- n1*n2 )  Multiplies numbers on top of the stack
+*/      ( a b c -- d )  Calculates  d = a * b/c  i.e. mutliply by ratio
+*/MOD ( a b c -- r d )  Calculates  d = a * b/c  r=remainder
++   ( n1 n2 -- n1+n2 )  Adds the two numbers on top of the stack
++!       ( n addr -- )  Adds n to contents of addr
++LOOP         ( n -- )  Adds n to loop counter and loops back
++TO             ( -- )  Sets flag for adding value into integer:  1 +TO X1
+,             ( n -- )  Stores n at dictionary pointer, increments DP by 4
+-   ( n1 n2 -- n1-n2 )  Subtracts numbers on top of the stack
+-ROT ( a b c - c a b )  Rotates top of stack to the third position
+-TRAILING ( a n1 -- a n2 )  Truncates extra spaces at end of string at a[ddr]
+.             ( n -- )  Prints the value of the top number on the stack
+."      ( <string>== )  Prints a string up to the first "
+.(      ( <string>-- )  Prints a string up to the first )
+.S              ( -- )  Prints the contents of the stack non-destructively
+/   ( n1 n2 -- n1/n2 )  Divides numbers on top of the stack
+/MOD ( n1 n2 - n3 n4 )  Divides n1/n2, n3=remainder, n4=quotient
+0"      ( word" -- n )  Returns the addr of the 0-terminated string ending in "
+0"COUNT ( a -- a len )  Returns address and length of the 0-terminated string
+2CONSTANT ( n1 n2 name ) Creates a two-number constant: 100 0 2CONSTANT CNTDWN
+2DROP     ( n1 n2 -- )  Drops two numbers from the stack
+2DUP ( n1 n2 -- n1 n2 n1 n2 )  Duplicates the double number on the stack
+:               ( -- )  Creates a new word to perform the words up to the ;
+;               ( -- )  Marks the end of a definition
+<       ( n1 n2 -- f )  True if n1 < n2
+<<     ( n1 n2 -- n3 )  Shifts n1 by n2 bits left,  e.g. 100 5 << = 100 2^5 *
+="      ( a1 a2 -- f )  True if counted strings at a1 and a2 equal. See STRING"
+=STRING ( a1 len a2 -- f ) True if string at a1,len equal to counted string a2
+>       ( n1 n2 -- f )  True if n1 > n2
+>>     ( n1 n2 -- n3 )  Shifts n1 by n2 bits right, e.g. 100 3 >> = 100 2^3 /
+>IN        ( -- addr )  Variable holding number of bytes left in input line
+>R            ( n -- )  Pushes number onto return stack.  Use in pairs with R>
+?COMPILE        ( -- )  Gives error if not called in compile mode
+?CR           ( -- f )  Does a CR if #OUT is greater than 64
+?DUP ( n -- n 1 -- 0 )  DUPlicates n if non-zero. Eliminates an ELSE DROP THEN
+?STACK          ( -- )  Gives error if the stack is out of bounds
+@        ( addr -- n )  Replaces address addr with it's contents
+@+    ( a -- a+4 [a] )  Returns address a+4 and contents of a.  See COUNT
+ABORT           ( -- )  Halts execution and returns to the Forth command line
+ABORT"        ( f -- )  If true shows an error msg ending in " and calls ABORT
+ABS       ( n -- |n| )  Calculates absolute value
+ALLOT         ( n -- )  Allocates storage space after VARIABLE or CREATE
+ALONG ( a b -- a+b a )  Use before DO when you have an address and length
+AND    ( n1 n2 -- n3 )  Returns the bit-wise AND of  n3 = n1 AND n2
+ARGS"   ( arguments" )  Passes arguments to the SHELL" :  ARGS" FILE.TXT"
+ASCII       ( char-- )  Returns ASCII value of character:  ASCII A
+BASE       ( -- addr )  Variable holding base for number conversion
+BL            ( -- c )  ASCII character for a blank space, 32
+BYE             ( -- )  Terminates current process (BYE == Leave forth)
+C!          ( b n -- )  Stores  byte at address n
+C,            ( b -- )  Compiles a byte into the dictionary
+C@          ( n -- b )  Fetches byte at address n
+CALL" ( <string><word> )  Creates a string constant, CALL" Clinton" President
+CMOVE ( a1 a2 len -- )  Moves len bytes from address a1 to address a2
+CMOVE> ( a1 a2 len - )  Moves len bytes from a a1 to a2, high memory first
+COMMANDLINE( -- addr )  Returns the linear address of the command line
+CommandShell    ( -- )  Temporarily exits to the OS/2 command line
+COMPILE         ( -- )  Postpones compilation of the following word
+COMPILECALL ( adr -- )  Compiles a call to the address given
+CONSTANT ( n word -- )  Creates the constant <word> which represents n
+CONTEXT    ( -- addr )  Address of CONTEXT, list of vocabularies to search
+COUNT ( a -- a+1 [a] )  Returns the address+1 and the byte at addr
+CR              ( -- )  Outputs a carriage return and line feed.
+CREATE      ( word-- )  Creates a word which returns its address when called
+CURRENT    ( -- addr )  Pointer to vocabulary where new words are added
+D>F         ( n -- R )  Converts the top stack entry to a Real
+DECIMAL         ( -- )  Start entering and printing all decimal numbers
+DEFINITIONS     ( -- )  Sets the vocabulary where new words are created
+DEPTH         ( -- n )  Number of elements on stack
+DO        ( n2 n1 -- )  Repeats from n1 up to n2.  Use with LOOP
+DOES>           ( -- )  Used after CREATE to define run-time action of word
+DP!           ( n -- )  Sets the dictionary pointer to a new value: DP !
+DPL        ( -- addr )  Variable holding decimal point location from NUMBER?
+DROP          ( n -- )  Drops the top number from the stack
+DROPS         ( n -- )  Drops n words from the stack
+DUMP   ( addr len -- )  Shows contents of a range of memory
+DumpRegisters   ( -- )  Shows the current contents of the CPU registers
+DUP       ( n -- n n )  Duplicates the number on top of the stack
+ECHO       ( -- addr )  Use ECHO ON or ECHO OFF to echo the file being loading
+ELSE            ( -- )  Executes following words when IF condition false
+EMIT       ( char -- )  Outputs an ASCII character
+ENVIRONMENT( -- addr )  Returns the linear address of the Environment Space
+EOF?          ( -- f )  True if at the end of file read with FRead
+EXECUTE    ( addr -- )  Executes the code at address, ' .S CFA @ EXECUTE
+EXITCODE   ( -- addr )  Variable holding exit code returned to OS/2 after BYE
+F!       ( R addr -- )  Stores a Real at memory address
+F*  ( R1 R2 -- R1*R2 )  Multiplies the two numbers on the floating point stack
+F+  ( R1 R2 -- R1+R2 )  Adds the two numbers on the floating point stack
+F-  ( R1 R2 -- R1-R2 )  Subtracts R2 from R1
+F.            ( R -- )  Prints and consumes, the top floating point number
+F/  ( R1 R2 -- R1/R2 )  Divides R1 by R2
+F0<         ( R -- f )  True if R < 0.0
+F0=         ( R -- f )  True if R = 0.0
+F<      ( R1 R2 -- f )  True if R2 < R1
+F>D         ( R -- n )  Converts the top Real to a Number
+F@       ( addr -- R )  Reads a Real from an address
+FABS        ( R -- R )  Returns the ABSOLUTE value of the stack top
+FALIGN          ( -- )  Assures that the next allot will be float aligned
+FALIGNED (addr -- f-addr) f-addr is the first f-alligned address >= addr
+FALSE         ( -- 0 )  Returns the constant FALSE = 0
+FBUFFER    ( -- addr )  Address of a 16K buffer for loading files
+FCLEAR          ( -- )  Initializes the Floating Point Stack
+FCONSTANT   ( R word )  Creates the constant <word> which represents R
+FCOS    ( R -- Cos<r>)  Returns the Consine of angle R in radians
+FDEPTH        ( -- n )  Returns the depth of the floating point stack
+FDROP         ( R -- )  Drops the top floating point entry
+FDUP       ( R - R R )  Duplicates the top floating point entry
+FENCE      ( -- addr )  Sets lowest point to which you can FORGET words
+FILL   ( addr n b -- )  Fills n bytes at addr with byte b
+FLOOR       ( R -- R )  Truncates R towards -infinity
+FOR       ( n2 n1 -- )  Repeats from n1 to n2 if n2>n1.  Use with NEXT
+FORGET      ( word-- )  Forgets all words up to and including the word
+FORTH           ( -- )  Sets FORTH as the current vocabulary
+FROUND      ( R -- R )  Rounds to nearest integer
+FSEEK   ( h ptr -- f )  Sets file handle h's position to ptr, f=0 successful
+FSIN    ( R -- Sin<r>)  Returns the Sine of angle R in radians
+FSINCOS ( R -- Sin<r> Cos<r>) Returns sine and consine of angle R in radians
+FSQRT ( R -- Sqrt<r> )  Returns the square root of R
+FSWAP (R1 R2 -- R2 R1)  Swaps the two reals on the stack
+FVARIABLE ( <name>-- )  Creates a REAL variable called <name>
+HELP            ( -- )  Displays some usefull help information
+HERE          ( -- n )  Returns dictionary pointer
+HEX             ( -- )  Start entering and printing all hexadecimal numbers
+I             ( -- n )  Current LOOP value of innermost LOOP
+IF            ( f -- )  Executes the following words if flag f is non-zero
+IMMEDIATE       ( -- )  Marks last word defined as IMMEDIATE.
+INCLUDE       ( " -- )  Loads and compiles the file name given at the address
+INCLUDE"   ( file"-- )  Loads and compiles the file name ending with a "
+INTEGER    ( word -- )  Creates an integer which returns it's value. See TO +TO
+J             ( -- n )  Current LOOP value of second nested LOOP
+K             ( -- n )  Current LOOP value of third  nested LOOP
+KEY           ( -- b )  Waits for a key to be received, returns ASCII value
+KEYNOWAIT     ( -- n )  Returns the raw keyboard scan code: 27=no key
+LAST       ( -- addr )  Address containing pointer to last word defined
+LEAVE           ( -- )  Causes DO...LOOP to terminate at next LOOP
+LITERAL         ( -- )  Compiles a literal number into word: [ 100 ] LITERAL
+LOCALS|       ( ? -- )  Defines local variables:  LOCALS| a b c |  ...
+LOOP            ( -- )  Branches back to  DO
+MAX    ( n1 n2 -- n3 )  Returns the greater of n1 and n2
+MIN    ( n1 n2 -- n3 )  Returns the lesser  of n1 and n2
+MOD    ( n1 n2 -- n3 )  Returns n1 modulo n2 (i.e. the remainder)
+MORE" ( <filename>-- )  Types the contents of a text file: MORE" THREADS.4TH"
+MOVE>" ( a len a2 -- )  Moves string at address a,len to counted string at a2
+MS            ( n -- )  Suspends the current thread for at least n milliseconds
+NDROP         ( n -- )  Drops n elements off the stack
+NEGATE     ( n -- -n )  Multiplies n by -1
+NEXT            ( -- )  Loops back to FOR
+NIP    ( n1 n2 -- n2 )  Removes the second number from the stack
+NUMBER? ( " -- n 1 -- 0 ) Converts string to number: true if success else false
+OFF        ( addr -- )  Stores a FALSE at the address
+ON         ( addr -- )  Stores a TRUE  at the address
+ONLY            ( -- )  Makes the most recently cited vocabulary the only one
+OPEN       ( 0" -- h )  Opens the 0-terminated file name and returns handle,    aborts if file not found
+OPENNEW    ( 0" -- h )  Opens the 0-terminated file name, returns handle,       creating file if non-existant
+OR     ( n1 n2 -- n3 )  Returns the bit-wise OR of  n3 = n1 OR n2
+OUT        ( -- addr )  Address of variable holding output cursor position
+OVER  ( a b -- a b a )  Copies the second number to the top of the stack
+PAD        ( -- addr )  Address of scratch-pad memory
+PI            ( -- R )  Returns the constant PI 3.1415926....
+PICK      ( ? i -- ? )  Copies the i'th element on the stack to the top
+POSTPONE        ( -- )  Compiles the next words run time action, even if immediate
+QUIT            ( -- )  Quits execution and returns to Forth command line
+R>            ( -- n )  Pops number from return stack.  Used with >R
+R@            ( -- n )  Copy number from top of return stack
+READLN  ( h -- a len )  Reads next line of input from file h, then try TYPE
+RECURSE         ( -- )  Compiles a recursive call to the definition itself
+ROLL      ( ? i -- ? )  Rolls the i'th element on the stack to the top
+ROT ( a b c -- b c a )  Rotates third element to top of stack
+SHELL"  ( string" -- )  Runs the given program:  SHELL" EDITOR.EXE" See ARGS"
+SP!        ( addr -- )  Sets stack pointer to address.  SP0 SP! to clear stack
+SP0        ( -- addr )  Base address of the stack
+SP@        ( -- addr )  Stack pointer address
+SPACE           ( -- )  Outputs a space
+SPAN          ( -- n )  Address of the current offset in the TIB (same as #TIB)
+STATE      ( -- addr )  Address of variable holding compilation state
+STRING    ( <name>-- )  Creates a TO variable string: STRING S1  " YES" TO S1
+SWAP    ( a b -- b a )  Swaps the two numbers on the stack
+SYSCALL ( ? sys$ -- ? )  Calls a system routine starting with SYS$
+THEN            ( -- )  Marks the end of an IF .. THEN  or IF .. ELSE .. THEN
+THREAD   ( <word> -- )  Starts a thread to execute <word>: THREAD Bunny
+TIB           ( -- n )  A variable holding a pointer to the Terminal Input Buf.
+TO              ( -- )  Sets flag for storing value into integer, e.g. 1 TO X1
+TOGGLE   ( n addr -- )  Toggles bits n at word address addr
+TONE   ( freq dur -- )  Emits a tone for a given frequency(Hz) and duration(ms)
+TRUE         ( -- -1 )  Returns the constant TRUE = -1
+TUCK ( n1 n2 -- n2 n1 n2 )  Makes a copy of n2 under n1
+TYPE     ( addr n -- )  Types out the n characters at address addr
+U*     ( n1 n2 -- n3 )  Unsigned multiply  n3 = n1 * n2
+U*/MOD ( a b c - r d )  Unsigned  d = a * b/c  r=remainder
+U.            ( n -- )  Prints the unsigned value of the number
+U/     ( n1 n2 -- n3 )  Unsigned divide,   n3 = n1 / n2
+UALLOT        ( n -- )  Allot n words of USER variable space
+UDP        ( -- addr )  Address of USER variable pointer
+USER      ( <name>-- )  Creates a USER variable called <name>
+USER0      ( -- addr )  Address of beginning of USER varaible area
+VARIABLE  ( <name>-- )  Creates a variable called <name>
+VIEW      ( <name>-- )  Views the description for a word.  VIEW VIEW
+VOCABULARY ( <name>- )  Creates a new vocabulary: VOCABULARY VOC1
+W             ( -- 4 )  Word size for addresses, variables, etc.  Also CELL
+W!     ( addr 16b -- )  Stores  the 16-bit word at addr.  DO NOT CONFUSE WITH W
+W*        ( n -- n*4 )  Multiplies by the word size 4.            Also CELLS
+W+        ( n -- n+4 )  Adds the word size 4.                     Also CELL+
+W-        ( n -- n-4 )  Subtracts the word size 4.                Also CELL-
+W@     ( addr -- 16b )  Fetches the 16-bit word at addr.  DO NOT CONFUSE WITH W
+WORD ( char string-- a )  Parse string delimited by char, return counted string
+WORDS           ( -- )  Shows the forth words in CONTEXT
+XOR    ( n1 n2 -- n3 )  Returns the bit-wise exclusive-OR of  n3 = n1 XOR n2
+XY          ( x y -- )  Move cursor to screen location (x,y)=(col,row)
+[               ( -- )  Stops   compilation in : definitions
+[COMPILE]       ( -- )  Compiles the following immediate word into definition
+\               ( -- )  Signals that the rest of the line is a comment
+]               ( -- )  Resumes compilation in : definitions
+--End--
+STRINGS  String words:  WORD  "   ="  "CAT  "MOVE   MOVE>"  =STRING  STRING
+
+
+
+5.  TECHNICAL DESCRIPTION
+
+5.1  Internals
+
+Forth/2 is a direct, subroutine threaded Forth.  Colon definitions are 
+made up of a series of 32-bit relative calls to other words.  The opcode 
+for these calls is E8h, followed by a four-byte offset to the code.  
+
+The return stack pointer (RP) is the ESP register.
+The   user stack pointer (SP) is the EBX register and grows downward.
+The   user area  pointer (UP) is the EBP register.
+There is no need for an instruction pointer (IP).
+
+So, a DUP instruction would be coded this way in MASM:
+             mov       eax,[ebx]
+             sub       ebx,4
+             mov       [ebx],eax
+             ret
+
+DO...LOOP's are created as in-line code, thereby maximizing performance.
+Literal numbers are also coded in-line.  They would take up 9 bytes to
+code using the more traditional call to LIT, followed by the literal.
+However, in only ten bytes it can be done much more quickly using
+in-line code.
+
+Currently, Forth/2 is case insensitive.  All defined words are converted 
+to upper-case before being entered into the dictionary.  Forth words can 
+be entered in any mix of upper and lower case, they are all the same.  
+
+All math words like * / + - etc.  are fully 32-bit.  In addtion, the 
+words */ and */MOD use 32-bit arguments but do generate 64-bit 
+intermediate results.  No 64-bit double-number words such as D+, M*, or 
+UM/MOD have been defined.  
+
+
+
+5.2  OS/2 Interface
+
+OS/2 32-bit system calls are implemented by saving most registers, 
+saving the ESP in EBP, setting ESP to EBX, calling the system routine,
+then restoring ESP and the other registers.  Basically, this switches 
+the stacks so that the parameters passed to OS/2 calls do not need to be
+shuffled around.  The function which makes the system call must drop all 
+the parameters it put on, as OS/2 does not do this (just as in C).  
+
+To call OS/2 system functions, you must use the word SYSCALL which 
+requires the address of the system call on the top of the stack.  Words
+such as SYS$BEEP, SYS$READ, SYS$WRITE, SYS$OPEN et.  al.  return the 
+addresses corresponding to the OS/2 functions DosBeep, DosRead, 
+DosWrite, DosOpen, etc.  All use 32-bit arguments.  
+
+The function calls are kept in a separate vocabulary called SYSTEM.  
+Before you use any of these system calls, make sure SYSTEM gets executed 
+to put the vocabulary into CONTEXT so that these calls will be visible.  
+
+To translate OS/2 documentation, usually given with C calling 
+conventions, into equivalent Forth/2 code, remember that in C the 
+parameters are pushed onto the stack from right to left.  For the 
+function DosBeep, the OS/2 Technical Library lists the function this 
+way:
+
+    APIRET DosBeep (ULONG ulFrequency, ULONG ulDuration)
+
+To call this from Forth, do the following:
+
+    Duration @  Frequency @  SYS$BEEP  SYSCALL  3 DROPS
+
+You must drop all parameters after each SYSCALL.
+
+
+To pass pointers to OS/2 functions, simply use the names of the 
+variables, which place their address on the stack.  DosGetDateTime is 
+listed as:  
+
+    APIRET DosGetDateTime (PDATETIME ppPDateTime)
+
+so call it as follows:
+
+    VARIABLE DateTime   7 ALLOT  ( DateTime structure is 11 bytes long )
+
+    DateTime SYS$GetDateTime SYSCALL  2DROP
+
+The ASCII characters representing the date and time will be stored in 
+the memory structure at DateTime.
+
+
+
+5.3  USER Variables and Multi-Tasking
+
+
+
+5.4  TO Variables (VALUE's)
+
+TO variables use a system variable called  %TO  to determine if they should
+return their value, or store or add into the variable.  If %TO is zero, the
+variables return their value.  If %TO is >0, the number on top of the stack
+is stored into the variable.   If %TO is <0, the number on top of the stack
+is added to the variable.  The following words, defined in assembly for
+speed but reproduced here, show how this works.
+
+    VARIABLE %TO
+    : TO    1 %TO ! ;
+    : +TO  -1 %TO ! ;
+    : <TODOES> ( addr -- ? )  %TO @ 0 = IF  @  ELSE
+                              %TO @ 0 > IF  !  ELSE  +!  THEN THEN
+                              0 %TO ! ;
+
+    : INTEGER ( -- )  CREATE  0 ,   DOES>  <TODOES> ;
+
+This can be augmented to accept initial values when the INTEGER is created.
+
+    : INTEGER ( -- )  CREATE  HERE  0 ,
+                              %TO @ IF  <TODOES>  ELSE  DROP  THEN
+                      DOES>   <TODOES> ;
+
+To store an initial value into the first version of INTEGER, you must do:
+
+    INTEGER X  100 TO X
+
+whereas with the second version you can combine these as:
+
+    100 TO INTEGER X
+
+
+
+5.5  VOCABULARIES
+
+Vocabulary structures are made up of three words:
+
+    1   0          Unused
+    2   VocPtr     Pointer to the last Forth word created in this vocabulary
+    3   Voc-Link   Link to most recently created vocabulary
+
+The word  VOC-LINK  is the head of a linked-list of vocabularies in the
+order in which they were created.  VOC-LINK is needed in order to
+FORGET words across multiple vocabularies.
+
+When created, each vocabulary VocPtr is set to zero.  That way, all
+vocabularies chain back to 0, not any other vocabularies.  To search
+multiple vocabularies, each vocabulary name must be executed to
+have it insert itself into the list of vocabularies in CONTEXT.
+
+
+
+5.6  Specifications and Limits
+
+The following limits are present in the current Forth/2 system.  Since this
+is a 32-bit Forth using a flat, non-segmented address space, most of these
+limits are arbitrary and are simply controlled by constants in the compiler.
+
+Word size:                                          4 Bytes  (32 bits)
+Word name length maximum size:                     31 Bytes
+Base code (.EXE) size:                           35 K Bytes  (So far)
+FORTH.INI code size:                             14 K Bytes  (So far)
+
+Dictionary size limit (incl. FORTH.INI):         64 K Bytes
+User stack size limit:                            4 K Bytes  (1024 elements)
+User stack underflow size limit:                  4 K Bytes  (1024 elements)
+Return stack size limit:                          8 K Bytes* (2048 elements)
+Return stack underflow size limit:                0 K Bytes
+USER variable area size limit:                    4 K Bytes
+File Buffer Size limit:                          16 K Bytes  (for FORTH.INI)
+Terminal Input Buffer (TIB) Size limit:           256 Bytes
+
+Terminal I/O:                                    ANSI compatibility
+Alphabetic case sensitivity:                     Case insensitive (Dup==DUP)
+
+
+* Note:  The return stack is handled by OS/2 using a guard-page technique.
+         If the stack grows past 4K, a new 4K Byte page is allocated.
+         Forth/2 will allow up to 1 one more page to be allocated.
+
+
+
+
+6.  COMPATIBILITY
+
+There are some differences in the way this Forth works compared to most
+other Forths.  Some of these may be changed in a future version.
+
+
+6.1  Compatibility with Forth-83
+
+Since this Forth is still in development, not all words are supported
+yet.  The following words from the Forth-83 Standard have not been
+created yet in Forth/2:
+
+  >BODY  CONVERT
+  D+  D<  DNEGATE  UM*  UM/MOD
+
+In the file BLOCKS.4TH which accompanies Forth/2 are some preliminary
+words which can read and load block files.  However, multiple buffers
+and the ability to save those blocks back to disk has not been imp-
+lemented.  It is recommended that you use the conversion utility to
+convert your block files into sequential files.
+
+The following words are therefore only partially supported:
+
+  BLK  BLOCK  BUFFER  FLUSH  LOAD  SAVE-BUFFERS  UPDATE
+
+
+
+
+6.2  Compatibility issues with specific words and functions
+
+
+File Loading
+
+Currently, files are loaded into a 16K buffer and compiled in one
+pass.  This will be changed in future releases to support line-by-line
+compilation.  So, the file size limit for FORTH.INI is currently 16K.
+
+Block files are not directly supported.  A preliminary block file handler
+has been implemented using the OS/2 functions SYS$READ, SYS$SEEK, and
+SYS$WRITE in the file BLOCKS.4TH.
+
+
+
+WORD and Strings
+
+All string lengths are fully 32-bits long (no 255-character limits on
+strings.)  This will certainly cause problems if you are using
+COUNT.  If so, replace it with @+ which does the same thing except for
+using a 32-bit count.  Remember, though, that doing a C@ on the string
+will return the correct length if it is less than 256 characters long
+because the 80386 stores the least significant byte in lower memory.
+And, using it the normal way will usually do no harm.  You will simply
+be typing out extra zeros in the front and chopping off the last three
+characters.
+
+Feel free to redefine COUNT if necessary, but people often use COUNT
+for purposes other than with strings, so it was left alone.
+
+Or, redefine WORD like this:
+
+    : WORD ( char string"-- addr ) WORD  DUP C@  OVER 3 + C!  3 + ;
+
+which stores an extra copy of the count immediately before the first
+character, and returns that address instead.  Be careful, however, to
+redefine some of the system functions such as ". because these fetch
+the full 32-bit length.
+
+WORD will not work accross lines while loading a file.
+
+
+
+" (Quotes)
+
+" string" returns the address of 32-bit count of a counted string.
+
+
+
+Dictionary Headers and ' (tick)
+
+The dictionary structure reflects the fully 32-bit theme of this
+Forth.  All fields, including the length of the word, are 32 bits long.
+A separate 32-bit flag field replaces the use of bits 6 and 7
+of the length byte of typical Forths.  The word IMMEDIATE works in
+the usual way, however.  It sets bit 1 (of 0-31) of the flag field.
+
+The name field is always set to 32 bytes.  With 4GB of virtual memory to
+play with, code size was not a major concern.
+
+The order of the dictionary fields is non-standard.  The dictionary
+header is structured like this:
+
+Field    Length
+Name    in bytes   Contents
+-----   --------   --------------------------------------------------------
+LFA         4      Link Field Address, link to previous definition
+FFA         4      Flag Field Address, flags immediate definitions
+CFA         4      Code Field Address, pointer to executable code
+NFA         4      Name Field Address, length of the word followed by
+SFA        32      String Field Address, address of first character
+PFA         ?      Parameter Field Address, start of code and/or parameters
+
+The string field is initialized to zeros.
+
+' (tick) returns the address of the link field address of the word, the
+start of the definition.  To get to the other fields, use the following
+words:
+
+  ' <word>  ==>  LFA of word, then use:
+
+DECIMAL
+  : FFA  04 + ;  ( converts  LFA  to  FFA  or  Flag Field Address )
+  : CFA  08 + ;  ( converts  LFA  to  CFA  or  Code Field Address )
+  : NFA  12 + ;  ( converts  LFA  to  NFA  or  Name Field Address )
+  : SFA  16 + ;  ( converts  LFA  to  SFA  or  String Field Address )
+  : PFA  32 + ;  ( converts  LFA  to  PFA  or  Parameter Field Address )
+
+  : LFA  32 - ;  ( converts  PFA  to  LFA )
+
+If you ' a constant or a word created with DOES> you will have to add 5
+to the address to get the real parameters.  The 5 skips the jump opcode
+and the four byte offset.
+
+
+
+TIB
+
+The word TIB returns the address of a variable which holds the location
+of the terminal input buffer.  To make it compatible, redefine
+   :  TIB TIB @ ;
+(It seems to be more flexible as a pointer anyway.)
+
+
+
+Dictionary Pointer
+
+Currently the dictionary pointer cannot be externally accessed with a
+variable address.  Instead, use HERE to get the current dictionary
+pointer and use DP!  to store into the dictionary pointer (instead of
+DP !).
+
+
+
+CASE
+
+An implementation of Chuck Eaker's CASE words is included in the
+FORTH.INI file.  There is one major difference.  You must do a DROP or
+equivalent before the ENDOF statement at the end.  This was done because
+you should not have to DUP the value which fell through in order to
+handle it (as in 0 DAY in section 3.1).  It does not make sense that
+ENDCASE requires a parameter.  It DOES make sense that you should always
+deal with an exception, either by ignoring it with DROP or by using some
+type of error handling.
+
+
+
+
+7.  WHERE TO SEND COMMENTS AND SUGGESTIONS
+
+Mike Warot (ka9dgx) created Forth/2 and welcomes any comments,
+or suggestions about improving this product.  You may contact him
+via email over the Internet at:
+
+     ka9dgx@chinet.com             OR  ka9dgx@aol.com
+
+or via USMail at:
+
+     Mike Warot
+     PO BOX 4043
+     Hammond, Indiana 46324
+
+Also contact Mike about licensing this product and obtaining the source
+code for Forth/2.
+
+
+Brian Mathewson has helped Mike develop this Forth and the documentation.
+Please send any special requests, ideas, or suggestions to:
+
+     bbm@r2d2.eeap.cwru.edu
+
+or via USMail at:
+
+     Brian Mathewson
+     21576 Kenwood Avenue
+     Rocky River, OH  44116-1232
+
+<<< End of Forth/2 Documentation  23 March 1993 >>>

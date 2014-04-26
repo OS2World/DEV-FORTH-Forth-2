@@ -1,0 +1,186 @@
+dpANS draft #5 Core + Core Ext compliance checks...
+
+  Word   Status      Notes
+-------- ------ -----------------------------------------
+ !       Tested Make sure valid address is given
+ #       .ini
+ #>      .ini
+ #S      .ini
+ '       Tested If word not present, aborts
+ (       Tested
+ *       Tested
+ */      Tested Do NOT divide by ZERO! (Beware of large products!)
+ */MOD   Tested Do NOT divide by ZERO! (Beware of large products!)
+ +       Tested
+ +!      Tested
+ +LOOP   ?????? Does not appear to handle limit match properly,
+                standard is ambigous.
+ ,       Tested
+ -       Tested
+ .       .ini   Also in source, but not as good
+ ."      Tested
+ /       Tested
+ /MOD    Tested
+ 0<      Tested
+ 0=      Tested
+ 1+      Tested
+ 1-      Tested
+ 2!      Fixed  Wrong Order, fixed 10/23/93 MAW
+ 2*      Tested Does not error on overflow
+ 2/      Tested
+ 2@      Fixed  Wrong Order, fixed 10/23/93 MAW
+ 2DROP   Tested
+ 2DUP    Tested
+ 2OVER   Tested
+ 2SWAP   Tested
+ :       Tested
+ ;       Tested
+ <       Tested
+ <#      .ini
+ =       Tested
+ >       Tested
+ >BODY   FIXED  11/14/93
+ >IN     ?????? Needs review by a forth guru!!!
+ >NUMBER ****** Not present!!!
+ >R      Tested
+ ?DUP    Tested
+ ABORT   Tested
+ ABORT"  Tested
+ ABS     Tested
+ ACCEPT  Tested Returns at char #, quietly leaving rest of string as command!
+                Very dangerous if not carefull!
+ ALIGN   Tested
+ ALIGNED Tested
+ ALLOT   Tested
+ AND     Tested
+ BASE    Tested
+ BEGIN   Tested
+ BL      Tested
+ C!      Tested
+ C,      Tested
+ C@      Tested
+ CELL+   Tested
+ CELLS   Tested
+ CHAR    Tested
+ CHAR+   Tested
+ CHARS   Tested
+ CONSTANT Tested
+
+ New testing session 10/28/93
+ COUNT   Found, not tested
+ CR      Tested
+ CREATE  Tested
+ DECIMAL Tested
+ DEPTH   Tested
+ DO      Tested
+ DOES>   Tested Fixed 11/11/94 MAW
+ DROP    Tested
+ DUP     Tested
+ ELSE    Tested
+ EMIT    Tested
+
+ ENVIRONMENT?
+         ****** Not present!!!
+ EVALUATE
+         ****** Not present!!!
+
+ EXECUTE Tested
+ EXIT    BROKEN, DOES NOT WORK IN DO LOOP!!!
+
+ FILL    Tested
+ FIND    Tested
+ FM/MOD  Tested Added 11/14/93 MAW
+ HERE    Tested
+ HOLD    ?????? Need a forth guru for this one also
+ I       Tested
+ IF      Tested
+ IMMEDIATE
+         Tested
+
+ INVERT  Tested
+ J       Tested
+ KEY     Tested
+ LEAVE   BROKEN, DOES NOT JUMP TO END OF DO LOOP
+
+ LITERAL Tested
+ LOOP    Tested
+ LSHIFT  Tested
+ M*      Tested
+ MAX     Tested
+ MIN     Tested
+ MOD     Tested
+ MOVE    Tested
+ NEGATE  Tested
+ OR      Tested
+ POSTPONE
+         Tested
+
+ QUIT    Tested
+ R>      Tested
+ R@      Tested
+ RECURSE Tested
+ REPEAT  Tested
+ ROT     Tested
+ S"      Tested
+ S>D     Tested
+ SIGN    ??????  need guru
+ SM/REM  Tested Added 11/14/93 MAW
+ SOURCE  ******  Shows last line "Included", not proper??
+
+ SPACE   Tested
+ STATE   Tested
+ SWAP    Tested
+ THEN    Tested
+ TYPE    Tested
+ U.      Tested
+ U<      Tested
+ UM*     Tested
+ UM/MOD  Tested Fixed   11/14/93 MAW
+ UNLOOP  ******  BROKEN!! Doesn't work in a DO LOOP< exits FORTH!
+
+ UNTIL   Tested
+ VARIABLE
+         Tested
+
+ WHILE   Tested
+ WORD    ******  BROKEN!! Wierd problems with source, etc.
+
+ XOR     Tested
+ [       Tested
+ [']     Tested
+ [CHAR]  Tested
+ ]       Tested
+
+
+
+Core Extension Words
+
+  #TIB         Tested
+  .(           ******  Not present
+
+  .R           Tested
+  0<>          ******  Not present
+
+  0>           Tested
+  2>R          ******  Not Present
+
+Testing discontinued at this point do to shear volume of missing words, and
+problems already slated to be fixed.
+
+
+
+
+
+  Note:  7. does NOT produce a double precision number
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,295 @@
+
+  **************************** Authors Notes ******************************
+
+
+  This is my first attempt at doing OS/2 Full Screen, FLAT32 code.
+
+  It was written using the editor from Borland's Turbo Pascal 6.0+7.0
+
+  It is compiled using MicroSoft's MASM version 6.0
+
+  It was linked using LINK386 supplied with IBM's OS/2 version 2.1
+
+  This program requires OS/2 version 2.0 or later, and is designed
+  strictly for full screen text mode.
+
+  The source for this fine program is included. I would like to offer
+  my thanks for those who helped contribute code.
+
+  ************************* MODIFICATION HISTORY ***********************
+
+  This document was last updated May 22,1994
+
+Version 0.40áeta
+04/22/94 - MAW On vacation, spruce things up a bit.
+  Note: All of these changes are to documentation, and FORTH.INI, no real
+  changes to FORTH.EXE
+
+  Changed OPEN to abort if a file is NOT present upon open
+  Added   OPENNEW to create a file, if needed.. (for output?), tested ok.
+
+  Modified VIEW
+    1. Now looks at FORTH.DOC, not FORTH2.DOC
+    2. Now does not leave file open if word not found
+    3. Now stops looking at bottom of list, when --End-- is found. 8-)
+
+  Confirmed INCLUDE" only loads first time, build workaround involving
+  the use of MAIN.4th
+
+  Add HELP, and very beginnings for HELP system. (more later?)
+
+Version 0.39áeta
+01/31/94 - MAW Not moving after all, put address back to Hammond
+
+Version 0.38áeta
+  Current Priorities: (01/20/94)
+    1. dpANS compliance, at least with CORE vocabulary
+    2. Floating Point
+    3. Manual & Documentation
+    4. More examples, especially with Multi-Threading
+01/20/94 - MAW Fix Thread in compile mode, more extensive testing
+               Change addresses to new location
+               Update copyrights
+
+01/19/94 - MAW Fix Thread and ThreadProc
+               Add Version
+
+Version 0.37áeta
+11/14/93 - MAW Add PAUSE, and ?CR-MORE, modify WORDS to PAUSE after a
+               screenfull. I couldn't see what was zipping by. ;-)
+               Had to modify Forth.Ini, and turn off some safeties to get
+                 test program to run. Not complete yet, but much better.
+
+               Add FM/MOD and SM/REM, fixed UM/MOD, */ */MOD
+               Fix >BODY and DOES>
+
+10/23/93 - MAW Start dpANS 5 compliance checks,
+               Fix 2!, 2@ (wrong word order), see COMPLY.DOC
+
+Version 0.36áeta
+10/14/93 - MAW Fix broken POSTPONE
+               Rename COMPILECALL to COMPILE, to match standard
+               Add :NONAME, and update FORTH.INI to match
+
+Version 0.35áeta
+ 8/07/93 - MAW Decide to release SOURCE with shareware distribution to
+               encourage more OS/2 assembler programmers.
+               Create a BUILDIT.CMD file for OS/2 2.1 compilation
+                 (Link386 no longer works in a DOS box!)
+               Make all version number 0.35 instead of 0.035
+
+Version 0.34áeta
+  7/23/93 - Include missing PORTIO.DLL 
+Version 0.33áeta
+ 7/16/93 - MAW Finally get CIN and COUT working, thanks to sample code
+               from PORTIO by Michael Thompson - tommy@msc.cornell.edu
+
+ 7/08/93 - MAW Fix a bug in Include" in forth.ini, bump revision to 0.032
+               Because of debugging problems, add NOP
+               Add <EXECUTE>, 'EXECUTE to allow for revectoring
+               Need to re-establish USER variables, so that THREADS work
+
+ 7/07/93 - MAW Now have access to a debugger, fix FORTH.INI's "
+               Dir (which broke with 0.030) now works again.
+
+ 6/30/93 - MAW Got interpreter working again, needs a lot of work.
+               I NEED A DEBUGGER for OS/2
+               (Code works, somewhat acceptably- now using OS/2 v2.1)
+
+ 6/29/93 - MAW Big revision to help get to dp-ANS standards for the CORE
+           vocabulary.
+
+ 6/ 7/93 - MAW Added  SOURCE, S"
+
+ Version 0.29áeta
+ 5/12/93 - BBM Added  ACCEPT  ALIGN  ALIGNED  CHAR  CHARS  CHAR+
+                      UNLOOP  [']  [CHAR]  2@  2!  2*  2/  2OVER  2SWAP
+                      S"  S>D  UM/MOD  UM*  M*  INVERT  POSTPONE
+
+           Renamed or redefined (to conform to ANS Standard):
+                      CELL+  CELLS  CELL  LSHIFT  RSHIFT  MOVE  '
+                      CASE..OF..ENDOF..ENDCASE
+           Fixed other various problems.
+
+ Version 0.28áeta
+ 5/12/93 - MAW Add more floating point words, update documentation
+
+ Version 0.27áeta
+ 5/11/93 - MAW First version of F. working, needs polish.
+
+ Version 0.26áeta
+ 4/28/93 - MAW Rename Delay to MS, there are going to be a lot of
+               changes to make this ANS compliant
+               START adding floating point core words
+
+ 4/27/93 - MAW Recieved dpANS draft from Brian Mathewson
+
+ 4/21/93 - MAW Modify valuetable to work up to base 36, test mods
+               Modify AutoLoad to scan environment for directory to
+                 load forth.ini from.
+               Add Environment and Commandline functions
+
+ 3/23/93 - MAW Incorporate changes from Brian, bump to version 0.25áeta
+   Nearing version 1.0 (5/12/93 - HA!)
+
+ 3/15/93 - MAW
+   Find Ordinal value for DOS32KillThread
+   Add word DELAY, similar to TP7 definition.
+   Modify threads.4th definition of KillThread so that it works.
+   Tested against bunny, looks good.
+
+ 3/12/93 - MAW
+   Fix hard to find bug: had CODEDEF in instruction stream!
+   Fix EqualStr ="
+   Modify LookFor to use EqualStr. (Works well)
+   Make DumpRegisters a FORTH word, with a nice little header to show
+     which register is which, and do it all in HEX!
+
+ 3/11/93 - Version 0.022 - Mike's revisions
+   Rearrange source, eliminate DoHeader macro, start recoding routines
+   to be re-entrant, and use ESI (or EBP) as a local storage pointer.
+
+ 2/ 7/93 - Version 0.021 - Brians revisions...
+
+ 1/15/93 -
+   Add \ for whole line comments ( zero's ecx! )
+
+ 1/15/93 - Version 0.019
+   Add pointers to LoadModule, FreeModule, QueryModule, QueryProcAddr,
+     QueryProcType, ExecPgm, StartSession
+   (Need to start building vocabularies!)
+
+   Add Shell and CommandShell to Forth.ini
+
+ 1/15/93 - Version 0.018
+   Correct problems with GETKEY. Forth/2 now works properly in a window.
+
+   New routine (KEY), needs a parameter (0 = wait, 1 = NO wait)
+   Now have (KEY), KEY, KEYnoWAIT
+   Add RECURSE
+   Add FENCE to FORGET in Forth.ini
+
+ 1/14/93 - Version 0.017
+   Modify code in DP! to work better. Improve behavior of ' when word is
+   NOT found. Add FORGET to Forth.Ini
+   Rename to FORTH/2
+
+ 1/14/93 - More 0.016
+   Add sample code to FORTH.INI that uses SYSCALL and the constants provided
+   to OPEN, CLOSE, read and write files.
+
+ 1/13/93 - More 0.016
+   Add U*/MOD, revise */MOD to do an IDIV instead of DIV....
+   Add ?COMPILE, [COMPILE], ', and DOES>
+     Tested, appear to work.
+
+ 1/12/93 - Version 0.016
+   Modify meaning of SP! to comply with standards, rename S0 to SP0
+   Add RP0, RP@, RP!, R@
+
+ 1/11/93 - Version 0.015
+   Fix /MOD and */MOD, left results in wrong order
+   Fix >,>=,<,<= they all used UNSIGNED math, which is INCORRECT
+   Add HERE,DP! for dictionary access
+   Add " for strings
+   Add Test routines SYS$BEEP (returns address of DOS32BEEP)
+     and SYSCALL (Call an OS/2 routine)
+
+ 1/ 7/93 - Version 0.014
+   Remove duplicate AND,OR,XOR
+   Add Brians */ (Works well!)
+   Add /MOD, */MOD, ABS, NEGATE, MIN, MAX, TYPE, FOPEN, FCLOSE, FREAD,
+       TIB, #TIB, SPAN, EXPECT, QUERY, INTERPRET, PROMPT, AUTOLOAD
+   Add TESTMAIN - A test version of the main loop
+   (Wow - 7 Hours Straight!)
+   AutoLoad feature works. - Loads definitions (up to 16k) from FORTH.INI
+
+ 1/ 5/93 - Version 0.013
+   Fix / MOD and U/, add StackCheck before prompt.
+
+ 1/ 4/93 - Version 0.012
+   Add <,>,<=,>=,=,<>
+
+ 1/ 4/93 - Version 0.011
+   Fix bug in LOOP which dropped 1 too many stack values
+
+ 1/ 1/93 - Version 0.010
+   Add MASM macros PushForth, PullForth, and Compiles
+   Add FOR/NEXT, which is a much better DO ... LOOP
+   Add DO ... LOOP and IF ... ELSE ... THEN
+
+12/31/92 - Version 0.009
+   Add CONSTANT, CREATE, VARIABLE, ALLOT, "," and "C," and the supporting
+   routines DoesConstant and DoesVariable
+   (Need to have places to put file handles, etc)
+   ** Look for version 0.010 to have conditional branching...
+
+11/13/92 - Version 0.008
+   Make literal, Compile Only, and Immediate
+   Add COMPILE, the ultimate in sneaky forth words
+   Fix CR
+
+11/10/92 - Version 0.007
+   Add Brian Mathewson's code for SP!, [, and ]
+   Add header for ?STACK
+   Make LITERAL an Immediate word
+   Add RESET, improve logic
+
+11/08/92 - Version 0.006
+   Add new words:
+     ROT, .S, MOD, ( comments ), IMMEDIATE, ." show string",
+     CRLF, DEBUG ( a debugging variable )
+
+
+11/08/92 - Version 0.005
+   Add new macro CodeDef, to make maintenance easier
+
+   Add new words:
+     OVER, DROP, W, S0, SP@, DEPTH, C@, C!, W@, W!, STATE
+
+   Current Vocabulary:
+     OVER DROP W S0 SP@ DEPTH SWAP DUP .
+     HEX DECIMAL BASE W! W@ C! C@ ! @
+     XOR OR AND U/ U* / * - + STATE
+     : ; COMPILECALL LITERAL
+     EMIT KEY BYE VLIST
+
+   Note: KEY returns the ascii code in the low byte, and the scan code
+   in the upper byte. This is not standard, but it does allow the use
+   of F1-F10, etc.
+
+
+10/12/92 - Version 0.004
+   Fix bugs:
+      Error handling routine got contents of stack, instead of address
+      Correct handling of IMMEDIATE definitions
+
+   Add EMIT - Uses VioWrtTTY, and not STDOUT
+     * Thanks to Larry Bank for his VIO32.ASM sample program.
+       I only wish I had that sooner.
+     * Emit makes it possible to use ANSI strings to set colors for output
+
+   I will soon add GotoXY, GetXY and ClrScr....!
+  Current Vocabulary:
+    : ; COMPILECALL LITERAL KEY HEX DECIMAL BASE ! @ BYE VLIST
+    SWAP DUP XOR OR AND U/ U* / * - + .
+
+
+10/08/92 - Version 0.003
+   Add code to do handle compiling constants, etc.
+   Add : ; LITERAL and COMPILECALL to vocabulary
+
+   Add internal routine to dump registers, when needed for debugging.
+
+   Add a real set of legal disclaimers to documentation.
+
+
+
+10/07/92 - Version 0.002
+
+   Finally figure out how to get a keystroke from OS/2
+   (No help from IBM what so ever!)
+
+   Add KEY to vocabulary list (Whew)
+
+
